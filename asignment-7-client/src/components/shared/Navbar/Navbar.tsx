@@ -131,7 +131,7 @@ export default function Navbar() {
             <Link
               href="/dashboard"
               onClick={() => setMenuOpen(false)}
-              className="block px-3 py-2 rounded-lg bg-yellow-300/20 text-yellow-300 font-semibold hover:bg-yellow-300/30 hover:text-white transition shadow flex items-center gap-1"
+              className="block px-3 py-2 rounded-lg bg-yellow-300/20 text-yellow-300 font-semibold hover:bg-yellow-300/30 hover:text-white transition shadow sm:flex items-center gap-1"
             >
               Dashboard
               <span className="inline-block bg-yellow-300 text-[#612DDD] text-xs font-bold px-2 py-1 rounded ml-1">Admin</span>

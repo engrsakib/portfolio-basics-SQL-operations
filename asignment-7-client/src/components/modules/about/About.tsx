@@ -145,11 +145,14 @@ const HeroHeader42 = () => {
         <div className="grid grid-cols-12 gap-6 items-center">
           <div className="col-span-12 lg:col-span-7 xl:col-span-6 text-center lg:text-start mb-12 lg:mb-0">
             <h2 className="text-3xl font-bold leading-tight tracking-wide lg:text-7xl mb-6">
-              Crafting On Experiences
+              Engineering Acts <br className="hidden lg:block" />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-purple-600 to-blue-500">
+                with Code
+              </span>
             </h2>
             <div className="max-w-xl">
               <p className="text-[17px] leading-relaxed opacity-80 my-12">
-                I am a passionate Full-Stack Web Developer with over 2 years of
+                I am a passionate AI ML Engineer with over 2 years of
                 experience in building responsive, high-performance web and
                 mobile applications. Skilled in React.js, Next.js, Node.js,
                 Prisma, and modern databases like PostgreSQL and MongoDB. I love

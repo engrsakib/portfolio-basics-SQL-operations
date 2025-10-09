@@ -2,24 +2,31 @@
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence, type Variants } from "framer-motion";
 
+// Selection Handle
 interface SelectionHandleProps {
   position: string;
+  color?: string;
 }
+const SelectionHandle = ({
+  position,
+  color = "#612DDD",
+}: SelectionHandleProps) => (
+  <div
+    className={`absolute w-4 h-4 border-2 rounded-full ${position}`}
+    style={{
+      borderColor: color,
+      background: "white",
+      boxShadow: `0 2px 12px 0 ${color}33`,
+    }}
+  />
+);
 
-const SelectionHandle = ({ position }: SelectionHandleProps) => {
-  return (
-    <div
-      className={`absolute w-4 h-4 bg-white dark:bg-gray-800 border-2 border-blue-500 dark:border-blue-400 rounded-sm ${position}`}
-    ></div>
-  );
-};
-
+// FlipWords: flip animation per word
 interface FlipWordsProps {
   words: string[];
   duration?: number;
   className?: string;
 }
-
 export const FlipWords = ({
   words,
   duration = 3000,
@@ -31,49 +38,46 @@ export const FlipWords = ({
     const intervalId = setInterval(() => {
       setIndex((prevIndex) => (prevIndex + 1) % words.length);
     }, duration);
-
     return () => clearInterval(intervalId);
   }, [words, duration]);
 
+  // Animation variants
   const wordContainerVariants: Variants = {
     hidden: {},
-    visible: {
-      transition: {
-        staggerChildren: 0.08,
-      },
-    },
-    exit: {
-      transition: {
-        staggerChildren: 0.05,
-        staggerDirection: -1,
-      },
-    },
+    visible: { transition: { staggerChildren: 0.08 } },
+    exit: { transition: { staggerChildren: 0.05, staggerDirection: -1 } },
   };
-
   const letterVariants: Variants = {
     hidden: {
       opacity: 0,
       y: 10,
-      filter: "blur(8px)",
+      scale: 0.85,
+      filter: "blur(10px)",
+      color: "#612DDD",
     },
     visible: {
       opacity: 1,
       y: 0,
+      scale: 1,
       filter: "blur(0px)",
+      color: "#612DDD",
       transition: {
-        type: "tween" as const,
-        ease: [0.25, 0.1, 0.25, 1],
-        duration: 0.4,
+        type: "spring",
+        stiffness: 400,
+        damping: 30,
+        duration: 0.3,
       },
     },
     exit: {
       opacity: 0,
       y: -10,
+      scale: 0.85,
       filter: "blur(8px)",
+      color: "#612DDD",
       transition: {
-        type: "tween" as const,
+        type: "tween",
         ease: [0.4, 0, 0.6, 1],
-        duration: 0.4,
+        duration: 0.3,
       },
     },
   };
@@ -97,7 +101,13 @@ export const FlipWords = ({
             <motion.span
               key={`${char}-${i}`}
               variants={letterVariants}
-              className="inline-block"
+              className="inline-block font-extrabold"
+              style={{
+                background:
+                  "linear-gradient(90deg,#612DDD 60%,#9F6BFF 80%,#38c7ff 100%)",
+                WebkitBackgroundClip: "text",
+                WebkitTextFillColor: "transparent",
+              }}
             >
               {char}
             </motion.span>
@@ -108,14 +118,13 @@ export const FlipWords = ({
   );
 };
 
+// Main ResizeHandle
 const ResizeHandle = () => {
   const phrases = [
     "Software-Engineer",
-    "FullStack - Developer",
-   
+    "FullStack-Developer",
     "Problem-Solver",
-    "UI-UX-Designer"
-   
+    "UI-UX-Designer",
   ];
 
   return (
@@ -126,24 +135,43 @@ const ResizeHandle = () => {
           .font-phudu {
             font-family: 'Phudu', cursive;
           }
+          .glass-bg {
+            background: rgba(255,255,255,0.70);
+            backdrop-filter: blur(8px);
+          }
+          .glass-bg-dark {
+            background: rgba(30, 10, 60, 0.7);
+            backdrop-filter: blur(10px);
+          }
         `}
       </style>
-      <div className="flex flex-col items-center justify-center font-sans p-4 text-center overflow-hidden">
+      <div className="flex flex-col items-center justify-center p-4 text-center overflow-visible">
         <motion.div
           layout
-          transition={{ type: "spring", stiffness: 400, damping: 30 }}
+          transition={{ type: "spring", stiffness: 300, damping: 28 }}
           className="relative inline-block my-2"
         >
-          <div className="font-phudu text-5xl md:text-7xl font-bold tracking-tight text-gray-800 dark:text-gray-200 py-1 px-4 flex items-center justify-center uppercase relative">
-            <FlipWords words={phrases} duration={3000} />
+          {/* Gradient border */}
+          <div className="relative">
+            <div className="absolute inset-0 pointer-events-none rounded-xl z-10"
+              style={{
+                padding: "3px",
+                background:
+                  "linear-gradient(120deg,#612DDD 40%,#9F6BFF 80%,#38c7ff 100%)",
+                boxShadow: "0 4px 36px 0 #612DDD22",
+              }}
+            />
+            <div className="relative rounded-xl overflow-hidden shadow-xl glass-bg dark:glass-bg-dark px-4 py-3">
+              <div className="font-phudu text-4xl md:text-6xl lg:text-7xl font-bold tracking-tight uppercase flex items-center justify-center z-20">
+                <FlipWords words={phrases} duration={2750} />
+              </div>
+            </div>
           </div>
-
-          <div className="absolute inset-0 border-2 border-blue-500 dark:border-blue-400 rounded-lg pointer-events-none"></div>
-
-          <SelectionHandle position="-top-2 -left-2" />
-          <SelectionHandle position="-top-2 -right-2" />
-          <SelectionHandle position="-bottom-2 -left-2" />
-          <SelectionHandle position="-bottom-2 -right-2" />
+          {/* Handles */}
+          <SelectionHandle position="-top-3 -left-3" color="#612DDD" />
+          <SelectionHandle position="-top-3 -right-3" color="#9F6BFF" />
+          <SelectionHandle position="-bottom-3 -left-3" color="#38c7ff" />
+          <SelectionHandle position="-bottom-3 -right-3" color="#ff6fd8" />
         </motion.div>
       </div>
     </>
