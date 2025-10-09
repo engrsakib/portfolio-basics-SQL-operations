@@ -21,7 +21,7 @@ export default function Login() {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      const res = await api.post("/auth/login", form, {
+      const res = await api.post("/login", form, {
         withCredentials: true,
       });
 
@@ -84,7 +84,7 @@ export default function Login() {
           <p>
             Don't have an account?{" "}
             <a
-              href="/auth/register"
+              href="/register"
               className="text-[#612DDD] font-semibold hover:underline hover:text-[#4a1fa6] transition"
             >
               Register
