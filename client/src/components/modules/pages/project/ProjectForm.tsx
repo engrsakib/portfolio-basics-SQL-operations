@@ -150,6 +150,8 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { useAuth } from "../../auth/authHook/UseAuth";
 
+const baseUrl = process.env.NEXT_PUBLIC_BASE_API || "http://localhost:3000";
+
 interface ApiError {
   code?: string;
   path?: string[];
@@ -204,7 +206,7 @@ export default function ProjectForm() {
       // 
 
       const res = await axios.post(
-        `https://a-7-portfolio-backend.vercel.app/api/v1/project`,
+        `${baseUrl}project`,
         payload,
         { withCredentials: true }
       );

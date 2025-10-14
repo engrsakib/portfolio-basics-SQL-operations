@@ -48,6 +48,8 @@ export default function GetAllProject() {
   const [maxClick, setMaxClick] = useState(1000);
   const [sortOrder, setSortOrder] = useState("desc");
 
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_API || "http://localhost:3000";
+
   // Pagination
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
@@ -92,7 +94,7 @@ export default function GetAllProject() {
 
   try {
     
-    const res = await fetch(`https://a-7-portfolio-backend.vercel.app/api/v1/project/${id}`, {
+    const res = await fetch(`${baseUrl}project/${id}`, {
       method: "DELETE",
       credentials: "include", 
       headers: {

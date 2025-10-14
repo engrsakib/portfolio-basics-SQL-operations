@@ -20,10 +20,12 @@ export default function SingleProjectPage({ params }: { params: { id: string } }
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
+  const baseUrl = process.env.NEXT_PUBLIC_BASE_API || "http://localhost:3000";
+
   useEffect(() => {
     const fetchProject = async () => {
       try {
-        const res = await axios.get(`https://a-7-portfolio-backend.vercel.app/api/v1/project/${params.id}`, {
+        const res = await axios.get(`${baseUrl}project/${params.id}`, {
           withCredentials: true,
         });
 

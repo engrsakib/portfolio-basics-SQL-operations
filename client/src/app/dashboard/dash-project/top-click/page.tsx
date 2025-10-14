@@ -4,6 +4,8 @@ import axios from "axios";
 import { motion } from "framer-motion";
 import { ExternalLink } from "lucide-react";
 
+const baseUrl = process.env.NEXT_PUBLIC_BASE_API || "http://localhost:3000";
+
 interface Project {
   id: number;
   title: string;
@@ -21,7 +23,7 @@ export default function TopClickedProjects() {
     const fetchTopProjects = async () => {
       try {
         // fix top clicked
-        const res = await axios.get("https://a-7-portfolio-backend.vercel.app/api/v1/project/top-clicked", {
+        const res = await axios.get(`${baseUrl}project/top-clicked`, {
           withCredentials: true,
         });
 
