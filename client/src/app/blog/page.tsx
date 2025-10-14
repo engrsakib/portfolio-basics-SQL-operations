@@ -61,10 +61,6 @@ export default function AllBlogsClients() {
   const [startDate, setStartDate] = useState("");
   const [endDate, setEndDate] = useState("");
 
-  if(loading){
-    <p><RippleLoader></RippleLoader></p>
-  }
-
   const fetchBlogs = async () => {
     setLoading(true);
     try {
@@ -114,24 +110,30 @@ export default function AllBlogsClients() {
   };
 
   return (
-    <section className="min-h-screen bg-gradient-to-br from-gray-50 via-white to-gray-100 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-10 px-4 sm:px-6 lg:px-10 transition-all duration-300">
+    <section className="min-h-screen mt-11 w-full bg-gradient-to-br from-[#612DDD] via-[#f3eaff] to-[#38c7ff] dark:from-[#181038] dark:via-[#612DDD] dark:to-[#23214e] py-10 px-4 sm:px-6 lg:px-10 font-poppins relative overflow-hidden">
+      {/* Decorative Blurs & Glow */}
+      <div className="absolute -top-32 -left-32 w-[340px] h-[340px] bg-[#612DDD]/30 rounded-full blur-3xl -z-10" />
+      <div className="absolute top-1/2 right-8 w-44 h-44 bg-[#9F6BFF]/20 rounded-full blur-2xl -z-10" />
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-52 h-52 bg-[#ff6fd8]/30 rounded-full blur-2xl -z-10" />
+      <div className="absolute bottom-0 right-0 w-40 h-40 bg-[#38c7ff]/30 rounded-full blur-2xl -z-10" />
+
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl sm:text-4xl font-extrabold bg-gradient-to-r from-purple-600 via-pink-500 to-orange-400 text-transparent bg-clip-text leading-tight">
+          <h1 className="text-3xl sm:text-4xl font-extrabold bg-gradient-to-r from-[#612DDD] via-[#ff6fd8] to-[#38c7ff] text-transparent bg-clip-text leading-tight drop-shadow-xl">
             Explore Inspiring Blogs ✨
           </h1>
-          <p className="text-gray-500 mt-2 text-base sm:text-lg">
+          <p className="text-[#612DDD] dark:text-[#9F6BFF] mt-2 text-base sm:text-lg font-semibold">
             Dive into stories, tutorials & insights from passionate writers.
           </p>
         </div>
 
         {/* Filter Panel */}
-        <div className="bg-white dark:bg-gray-900 rounded-2xl shadow-md border border-gray-200 dark:border-gray-700 p-4 sm:p-6 mb-10">
+        <div className="bg-white/90 dark:bg-[#181038]/80 rounded-2xl shadow-lg border border-[#612DDD]/10 p-4 sm:p-6 mb-10 backdrop-blur-lg">
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div className="flex items-center justify-center sm:justify-start gap-2">
-              <IoFilterCircleSharp className="text-indigo-500 text-2xl" />
-              <h2 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-indigo-500 to-purple-600 text-transparent bg-clip-text">
+              <IoFilterCircleSharp className="text-[#612DDD] text-2xl" />
+              <h2 className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-[#612DDD] to-[#38c7ff] text-transparent bg-clip-text">
                 Blog Explorer
               </h2>
             </div>
@@ -141,20 +143,20 @@ export default function AllBlogsClients() {
               <div className="relative w-full sm:w-auto">
                 <BiSearchAlt
                   size={18}
-                  className="absolute left-3 top-3 text-gray-400"
+                  className="absolute left-3 top-3 text-[#612DDD] opacity-70"
                 />
                 <input
                   type="text"
                   placeholder="Search blogs..."
                   value={search}
                   onChange={(e) => setSearch(e.target.value)}
-                  className="w-full sm:w-56 md:w-64 pl-10 pr-4 py-2 rounded-lg border border-gray-300 dark:border-gray-700 bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-white focus:ring-2 focus:ring-indigo-500 outline-none text-sm"
+                  className="w-full sm:w-56 md:w-64 pl-10 pr-4 py-2 rounded-lg border border-[#612DDD]/30 dark:border-[#9F6BFF]/30 bg-gray-50 dark:bg-[#23214e] text-[#612DDD] dark:text-[#9F6BFF] font-semibold focus:ring-2 focus:ring-[#612DDD] outline-none text-sm transition"
                 />
               </div>
 
               {/* Views Filter */}
-              <div className="flex items-center gap-2 bg-gray-50 dark:bg-gray-800 px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 text-sm">
-                <BsEyeFill className="text-indigo-500" />
+              <div className="flex items-center gap-2 bg-gray-50 dark:bg-[#23214e] px-3 py-2 rounded-lg border border-[#612DDD]/30 dark:border-[#9F6BFF]/30 text-sm">
+                <BsEyeFill className="text-[#612DDD]" />
                 <input
                   type="number"
                   placeholder="Min"
@@ -164,7 +166,7 @@ export default function AllBlogsClients() {
                       e.target.value ? Number(e.target.value) : undefined
                     )
                   }
-                  className="w-16 sm:w-20 bg-transparent outline-none text-gray-700 dark:text-gray-300"
+                  className="w-16 sm:w-20 bg-transparent outline-none text-[#612DDD] dark:text-[#9F6BFF] font-bold"
                 />
                 <span>-</span>
                 <input
@@ -176,36 +178,36 @@ export default function AllBlogsClients() {
                       e.target.value ? Number(e.target.value) : undefined
                     )
                   }
-                  className="w-16 sm:w-20 bg-transparent outline-none text-gray-700 dark:text-gray-300"
+                  className="w-16 sm:w-20 bg-transparent outline-none text-[#612DDD] dark:text-[#9F6BFF] font-bold"
                 />
               </div>
 
               {/* Date Range */}
-              <div className="flex items-center gap-2 bg-gray-50 dark:bg-gray-800 px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 text-sm">
-                <CalendarRange className="text-indigo-500" size={16} />
+              <div className="flex items-center gap-2 bg-gray-50 dark:bg-[#23214e] px-3 py-2 rounded-lg border border-[#612DDD]/30 dark:border-[#9F6BFF]/30 text-sm">
+                <CalendarRange className="text-[#612DDD]" size={16} />
                 <input
                   type="date"
                   value={startDate}
                   onChange={(e) => setStartDate(e.target.value)}
-                  className="bg-transparent outline-none text-gray-700 dark:text-gray-300 w-28 sm:w-32"
+                  className="bg-transparent outline-none text-[#612DDD] dark:text-[#9F6BFF] font-bold w-28 sm:w-32"
                 />
                 <span>-</span>
                 <input
                   type="date"
                   value={endDate}
                   onChange={(e) => setEndDate(e.target.value)}
-                  className="bg-transparent outline-none text-gray-700 dark:text-gray-300 w-28 sm:w-32"
+                  className="bg-transparent outline-none text-[#612DDD] dark:text-[#9F6BFF] font-bold w-28 sm:w-32"
                 />
               </div>
 
               {/* Sort + Order */}
               <div className="flex gap-2">
-                <div className="flex items-center gap-2 bg-gray-50 dark:bg-gray-800 px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 text-sm">
-                  <SortAsc className="text-indigo-500" size={16} />
+                <div className="flex items-center gap-2 bg-gray-50 dark:bg-[#23214e] px-3 py-2 rounded-lg border border-[#612DDD]/30 dark:border-[#9F6BFF]/30 text-sm">
+                  <SortAsc className="text-[#612DDD]" size={16} />
                   <select
                     value={sortBy}
                     onChange={(e) => setSortBy(e.target.value)}
-                    className="bg-transparent outline-none text-gray-700 dark:text-gray-300"
+                    className="bg-transparent outline-none text-[#612DDD] dark:text-[#9F6BFF] font-bold"
                   >
                     <option value="createAt">Newest</option>
                     <option value="views">Most Viewed</option>
@@ -213,12 +215,12 @@ export default function AllBlogsClients() {
                   </select>
                 </div>
 
-                <div className="flex items-center gap-2 bg-gray-50 dark:bg-gray-800 px-3 py-2 rounded-lg border border-gray-300 dark:border-gray-700 text-sm">
-                  <SortDesc className="text-indigo-500" size={16} />
+                <div className="flex items-center gap-2 bg-gray-50 dark:bg-[#23214e] px-3 py-2 rounded-lg border border-[#612DDD]/30 dark:border-[#9F6BFF]/30 text-sm">
+                  <SortDesc className="text-[#612DDD]" size={16} />
                   <select
                     value={order}
                     onChange={(e) => setOrder(e.target.value)}
-                    className="bg-transparent outline-none text-gray-700 dark:text-gray-300"
+                    className="bg-transparent outline-none text-[#612DDD] dark:text-[#9F6BFF] font-bold"
                   >
                     <option value="desc">Descending</option>
                     <option value="asc">Ascending</option>
@@ -231,80 +233,80 @@ export default function AllBlogsClients() {
 
         {/* Blog Cards */}
         {loading ? (
-          <p className="text-center text-gray-500 dark:text-gray-400 animate-pulse">
-          <RippleLoader size={100}></RippleLoader>
-          </p>
+          <div className="text-center py-12"><RippleLoader size={100}></RippleLoader></div>
         ) : blogs.length === 0 ? (
-          <p className="text-center text-gray-500 dark:text-gray-400">
+          <p className="text-center text-[#612DDD] dark:text-[#9F6BFF] font-bold">
             No blogs found 😔
           </p>
         ) : (
           <motion.div
             layout
-            className="grid gap-6 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
+            className="grid gap-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3"
           >
-          
+            {blogs.map((blog, index) => (
+              <motion.div
+                key={blog.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.07 }}
+                className="group bg-white/90 dark:bg-[#181038]/80 rounded-3xl shadow-lg border border-[#612DDD]/10 hover:shadow-2xl hover:shadow-[#612DDD]/40 hover:-translate-y-2 hover:scale-[1.03] transition-all duration-300 p-6 flex flex-col justify-between relative backdrop-blur-xl"
+                style={{ boxShadow: "0 8px 32px 0 #612DDD22" }}
+              >
+                {/* Card Glow on hover */}
+                <div className="pointer-events-none absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-70 transition-all duration-300"
+                  style={{
+                    background: "radial-gradient(ellipse at 60% 20%, #612DDD88 20%, transparent 75%)",
+                    filter: "blur(18px)",
+                  }}
+                />
+                {/* Title & Description */}
+                <div>
+                  <h3 className="text-lg sm:text-xl font-bold text-[#612DDD] dark:text-[#9F6BFF] mb-2 line-clamp-2 transition group-hover:text-[#38c7ff]">
+                    {blog.title}
+                  </h3>
+                  <p className="text-gray-700 dark:text-gray-300 text-md line-clamp-3 mb-4 opacity-[85%]">
+                    {blog.content}
+                  </p>
+                </div>
 
+                {/* Footer Section */}
+                <div className="mt-auto">
+                  {/* Date + Views */}
+                  <div className="flex justify-between items-center text-xs sm:text-sm text-[#612DDD] dark:text-[#9F6BFF] border-t pt-3 border-[#612DDD]/20 dark:border-[#9F6BFF]/30 font-semibold">
+                    <span className="flex items-center gap-1">
+                      <CalendarDays size={15} />
+                      {new Date(blog.createAt).toLocaleDateString()}
+                    </span>
+                    <span className="flex items-center gap-1">
+                      <Eye size={15} /> {blog.views}
+                    </span>
+                  </div>
 
-                {blogs.map((blog, index) => (
-  <motion.div
-    key={blog.id}
-    initial={{ opacity: 0, y: 20 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ delay: index * 0.05 }}
-    className="bg-white dark:bg-gray-800 rounded-2xl shadow-md hover:shadow-xl hover:-translate-y-1 transition-all p-5 sm:p-6 border border-gray-200 dark:border-gray-700 flex flex-col justify-between"
-  >
-    {/* Title & Description */}
-    <div>
-      <h3 className="text-base sm:text-lg font-bold text-gray-900 dark:text-white mb-2 line-clamp-2">
-        {blog.title}
-      </h3>
-      <p className="text-gray-600 dark:text-gray-400 text-sm line-clamp-3 mb-4">
-        {blog.content}
-      </p>
-    </div>
+                  {/* Author Info */}
+                  <div className="mt-3 flex items-center justify-between bg-gradient-to-r from-[#612DDD] to-[#38c7ff] rounded-lg px-3 py-2 text-white text-xs font-bold shadow-sm">
+                    <span className="flex items-center gap-1">
+                      <User size={12} /> {blog.author.name}
+                    </span>
+                    <a
+                      href={`mailto:${blog.author.email}`}
+                      className="underline hover:text-white truncate max-w-[120px]"
+                    >
+                      {blog.author.email}
+                    </a>
+                  </div>
 
-    {/* Footer Section */}
-    <div className="mt-auto">
-      {/* Date + Views */}
-      <div className="flex justify-between items-center text-xs sm:text-sm text-gray-500 dark:text-gray-400 border-t pt-3 border-gray-100 dark:border-gray-700">
-        <span className="flex items-center gap-1">
-          <CalendarDays size={14} />
-          {new Date(blog.createAt).toLocaleDateString()}
-        </span>
-        <span className="flex items-center gap-1">
-          <Eye size={14} /> {blog.views}
-        </span>
-      </div>
-
-      {/* Author Info */}
-      <div className="mt-3 flex items-center justify-between bg-gradient-to-r from-indigo-500 to-purple-600 rounded-lg px-3 py-2 text-white text-xs font-medium shadow-sm">
-        <span className="flex items-center gap-1">
-          <User size={12} /> {blog.author.name}
-        </span>
-        <a
-          href={`mailto:${blog.author.email}`}
-          className="underline hover:text-gray-100 truncate max-w-[120px]"
-        >
-          {blog.author.email}
-        </a>
-      </div>
-
-      {/* View Button */}
-      <div className="mt-4 flex justify-center">
-        <Link
-          href={`/blog/${blog.id}`}
-          className="w-full text-center text-sm font-medium bg-gradient-to-r from-indigo-500 to-purple-600 hover:from-indigo-600 hover:to-purple-700 text-white px-5 py-2 rounded-xl shadow-md transition-all"
-        >
-          View Details
-        </Link>
-      </div>
-    </div>
-  </motion.div>
-))}
-
-
-
+                  {/* View Button */}
+                  <div className="mt-4 flex justify-center">
+                    <Link
+                      href={`/blog/${blog.id}`}
+                      className="w-full text-center text-sm font-bold bg-gradient-to-r from-[#612DDD] via-[#38c7ff] to-[#ff6fd8] hover:from-[#38c7ff] hover:to-[#612DDD] text-white px-5 py-2 rounded-xl shadow-lg hover:scale-[1.06] hover:shadow-purple-glow transition-all"
+                    >
+                      View Details
+                    </Link>
+                  </div>
+                </div>
+              </motion.div>
+            ))}
           </motion.div>
         )}
 
@@ -314,37 +316,39 @@ export default function AllBlogsClients() {
             <button
               onClick={prevPage}
               disabled={page === 1}
-              className="p-2 sm:p-3 rounded-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 disabled:opacity-40 transition"
+              className="p-2 sm:p-3 rounded-full bg-[#f3eaff] dark:bg-[#181038] border border-[#612DDD]/20 dark:border-[#9F6BFF]/20 hover:bg-[#612DDD]/10 text-[#612DDD] dark:text-[#9F6BFF] font-bold disabled:opacity-40 transition-all"
             >
               <ChevronLeft size={18} />
             </button>
-            <span className="text-gray-700 dark:text-gray-300 font-medium">
+            <span className="text-[#612DDD] dark:text-[#9F6BFF] font-bold">
               Page {pagination.page} of {pagination.totalPages}
             </span>
             <button
               onClick={nextPage}
               disabled={page === pagination.totalPages}
-              className="p-2 sm:p-3 rounded-full bg-white dark:bg-gray-800 border border-gray-300 dark:border-gray-700 hover:bg-gray-100 dark:hover:bg-gray-700 text-gray-600 dark:text-gray-300 disabled:opacity-40 transition"
+              className="p-2 sm:p-3 rounded-full bg-[#f3eaff] dark:bg-[#181038] border border-[#612DDD]/20 dark:border-[#9F6BFF]/20 hover:bg-[#612DDD]/10 text-[#612DDD] dark:text-[#9F6BFF] font-bold disabled:opacity-40 transition-all"
             >
               <ChevronRight size={18} />
             </button>
-
-            {/* view btn */}
           </div>
         )}
       </div>
+
+      {/* Card Glow Style & Animation */}
+      <style jsx>{`
+        .shadow-purple-glow {
+          box-shadow: 0 0 20px 0 #612DDD99 !important;
+        }
+      `}</style>
+      <style jsx global>{`
+        @keyframes fade-in-up {
+          from { opacity: 0; transform: translateY(40px);}
+          to { opacity: 1; transform: translateY(0);}
+        }
+        .animate-fade-in-up {
+          animation: fade-in-up 0.7s cubic-bezier(.41,.99,.54,.98) both;
+        }
+      `}</style>
     </section>
   );
 }
-
-
-
-
-
-
-
-
-
-
-
-
