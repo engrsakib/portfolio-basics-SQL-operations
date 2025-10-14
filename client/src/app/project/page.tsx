@@ -24,16 +24,15 @@ interface Project {
 }
 
 const featureColors = [
-  "from-pink-400 to-red-500",
-  "from-blue-300 to-sky-500",
-  "from-green-400 to-emerald-500",
-  "from-purple-400 to-indigo-500",
-  "from-yellow-400 to-orange-500",
+  "from-[#612DDD] to-[#ff6fd8]",
+  "from-[#38c7ff] to-[#612DDD]",
+  "from-[#9F6BFF] to-[#38c7ff]",
+  "from-[#ff6fd8] to-[#612DDD]",
+  "from-[#612DDD] to-[#38c7ff]",
 ];
 
 export default function ProjectList() {
   const [projects, setProjects] = useState<Project[]>([]);
-  console.log(projects);
   const [loading, setLoading] = useState(false);
 
   const [search, setSearch] = useState("");
@@ -45,34 +44,17 @@ export default function ProjectList() {
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
 
-  // const fetchProjects = async () => {
-  //   setLoading(true);
-  //   try {
-  //     const res = await api.get(
-  //       `/project?page=${page}&limit=6&search=${search}&features=${feature}&minClick=${minClick}&maxClick=${maxClick}&sortBy=clickCount&order=${sortOrder}`
-  //     );
-  //     setProjects(res.data.data.data || []);
-  //     setTotalPages(res.data.data.totalPages || 1);
-  //   } catch (err) {
-  //     console.error("Error fetching projects", err);
-  //   } finally {
-  //     setLoading(false);
-  //   }
-  // };
-
   const fetchProjects = async () => {
     setLoading(true);
     try {
       const res = await api.get(
         `/project?page=${page}&limit=6&search=${search}&features=${feature}&minClick=${minClick}&maxClick=${maxClick}&sortBy=clickCount&order=${sortOrder}`
       );
-
       const projectsData = res.data?.data?.data || [];
       const paginationData = res.data?.data?.pagination || {
         totalPages: 1,
         page: 1,
       };
-
       setProjects(projectsData);
       setTotalPages(paginationData.totalPages || 1);
     } catch (err) {
@@ -87,9 +69,9 @@ export default function ProjectList() {
   }, [search, feature, minClick, maxClick, sortOrder, page]);
 
   return (
-    <div className="p-6">
-      {/* 🔍 Filter Bar */}
-      <div className="flex flex-wrap items-center gap-4 mb-6 bg-white dark:bg-gray-900 p-4 rounded-lg shadow-md">
+    <div className="p-6 mt-11 min-h-screen bg-gradient-to-br from-[#612DDD] via-[#f3eaff] to-[#38c7ff] dark:from-[#181038] dark:via-[#612DDD] dark:to-[#23214e] font-poppins">
+      {/* Filter Bar */}
+      <div className="flex flex-wrap items-center gap-4 mb-8 bg-white/80 dark:bg-[#1a1333]/80 p-4 rounded-xl shadow-lg backdrop-blur-lg border border-[#612DDD]/20">
         <input
           type="text"
           placeholder="Search projects..."
@@ -98,7 +80,7 @@ export default function ProjectList() {
             setPage(1);
             setSearch(e.target.value);
           }}
-          className="border rounded px-3 py-2 w-48"
+          className="border border-[#612DDD]/30 rounded-lg px-3 py-2 w-48 focus:border-[#612DDD] focus:ring-2 focus:ring-[#612DDD]/30 transition"
         />
 
         <select
@@ -107,7 +89,7 @@ export default function ProjectList() {
             setPage(1);
             setFeature(e.target.value);
           }}
-          className="border rounded px-3 py-2"
+          className="border border-[#612DDD]/30 rounded-lg px-3 py-2 focus:border-[#612DDD] focus:ring-2 focus:ring-[#612DDD]/30 transition"
         >
           <option value="">All Features</option>
           <option value="Responsive design">Responsive Design</option>
@@ -123,7 +105,7 @@ export default function ProjectList() {
             setMinClick(Number(e.target.value));
           }}
           placeholder="Min Clicks"
-          className="border rounded px-3 py-2 w-28"
+          className="border border-[#612DDD]/30 rounded-lg px-3 py-2 w-28 focus:border-[#612DDD] focus:ring-2 focus:ring-[#612DDD]/30 transition"
         />
         <input
           type="number"
@@ -133,7 +115,7 @@ export default function ProjectList() {
             setMaxClick(Number(e.target.value));
           }}
           placeholder="Max Clicks"
-          className="border rounded px-3 py-2 w-28"
+          className="border border-[#612DDD]/30 rounded-lg px-3 py-2 w-28 focus:border-[#612DDD] focus:ring-2 focus:ring-[#612DDD]/30 transition"
         />
 
         <select
@@ -142,7 +124,7 @@ export default function ProjectList() {
             setPage(1);
             setSortOrder(e.target.value);
           }}
-          className="border rounded px-3 py-2"
+          className="border border-[#612DDD]/30 rounded-lg px-3 py-2 focus:border-[#612DDD] focus:ring-2 focus:ring-[#612DDD]/30 transition"
         >
           <option value="desc">Most Clicked</option>
           <option value="asc">Least Clicked</option>
@@ -151,34 +133,50 @@ export default function ProjectList() {
 
       {/* Project Cards */}
       {loading ? (
-        <p className="text-center"><RippleLoader></RippleLoader></p>
+        <div className="w-full flex justify-center py-20">
+          <RippleLoader />
+        </div>
       ) : (
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {projects.map((p) => (
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {projects.map((p, idx) => (
             <div
               key={p.id}
-              className="group relative border rounded-xl shadow-lg bg-white dark:bg-gray-900 overflow-hidden hover:shadow-2xl hover:-translate-y-2 transition-all duration-300"
+              className={`group relative shadow-lg bg-white/90 dark:bg-[#181038]/80 rounded-3xl overflow-hidden border border-[#612DDD]/10
+                backdrop-blur-xl transition-all duration-300
+                hover:shadow-2xl hover:shadow-[#612DDD]/40
+                hover:-translate-y-2 hover:scale-[1.04]
+                `}
+              style={{
+                boxShadow: "0 8px 32px 0 #612DDD22",
+              }}
             >
+              {/* Card Glow on hover */}
+              <div className="pointer-events-none absolute inset-0 rounded-3xl opacity-0 group-hover:opacity-70 transition-all duration-300"
+                style={{
+                  background: "radial-gradient(ellipse at 60% 20%, #612DDD88 20%, transparent 75%)",
+                  filter: "blur(20px)",
+                }}
+              />
               {/* Thumbnail */}
               <div className="relative">
                 {p.thumbnail?.[0] && (
                   <img
                     src={p.thumbnail[0]}
                     alt={p.title}
-                    className="h-40 w-full object-cover group-hover:scale-105 transition-transform duration-300"
+                    className="h-40 w-full object-cover group-hover:scale-105 transition-transform duration-300 rounded-t-3xl"
                   />
                 )}
-                <span className="absolute top-2 left-2 bg-gradient-to-r from-indigo-500 to-purple-600 text-white text-xs px-3 py-1 rounded-full shadow">
+                <span className="absolute top-2 left-2 bg-gradient-to-r from-[#612DDD] to-[#38c7ff] text-white text-xs px-3 py-1 rounded-full shadow font-bold">
                   New
                 </span>
               </div>
 
               {/* Content */}
               <div className="p-4">
-                <h3 className="text-2xl font-semibold opacity-[80%] group-hover:text-indigo-600 transition">
+                <h3 className="text-2xl font-bold opacity-[90%] group-hover:text-[#612DDD] dark:group-hover:text-[#9F6BFF] transition">
                   {p.title}
                 </h3>
-                <p className="text-gray-600 dark:text-gray-300 text-md opacity-[65%] mt-1 line-clamp-2">
+                <p className="text-gray-700 dark:text-gray-300 text-md opacity-[80%] mt-1 line-clamp-2">
                   {p.description}
                 </p>
 
@@ -187,9 +185,9 @@ export default function ProjectList() {
                   {p.features.map((f, i) => (
                     <span
                       key={i}
-                      className={`px-2  mt-[-7px] text-[14px]  font-bold rounded bg-gray-100 dark:bg-gray-800 bg-clip-text opacity-[70%]  text-transparent bg-gradient-to-r ${
+                      className={`px-2 py-[3px] mt-[-7px] text-[14px] font-bold rounded-full bg-clip-text text-transparent bg-gradient-to-r ${
                         featureColors[i % featureColors.length]
-                      }`}
+                      } shadow`}
                     >
                       {f}
                     </span>
@@ -198,7 +196,7 @@ export default function ProjectList() {
 
                 {/* Footer */}
                 <div className="flex flex-col gap-2 mt-4 text-sm">
-                  <div className="flex justify-between text-md font-bold text-gray-500 dark:text-gray-400">
+                  <div className="flex justify-between text-md font-bold text-[#612DDD] dark:text-[#9F6BFF]">
                     <span>
                       Created:{" "}
                       {new Date(p.createAt).toLocaleDateString("en-GB", {
@@ -211,34 +209,30 @@ export default function ProjectList() {
                   </div>
 
                   {p.user && (
-                    <div className="mt-2 flex flex-col gap-1 text-gray-700 dark:text-gray-300 tex-lg text-shadow-2xs font-medium opacity-[55%] mb-10">
+                    <div className="mt-2 flex flex-col gap-1 text-[#612DDD] dark:text-[#9F6BFF] font-medium opacity-[70%] mb-5">
                       <span className="flex items-center gap-2">
                         <FiUser /> {p.user.name}
                       </span>
                       <span className="flex items-center gap-2">
                         <FiMail /> {p.user.email}
                       </span>
-                      {/* set live url */}
-                      <div className="flex gap-40 items-center">
-                
+                      {/* set live url and View Btn */}
+                      <div className="flex gap-4 flex-wrap mt-2">
                         <Link
                           href={p.liveUrl}
                           target="_blank"
                           rel="noopener noreferrer"
-                          className="mt-3 inline-flex items-center justify-center gap-2 text-white bg-gradient-to-r from-blue-500 via-blue-600 to-blue-700 hover:from-blue-600 hover:to-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-md px-4 py-2 text-md transition-all duration-300 shadow-md hover:shadow-lg"
+                          className="inline-flex items-center gap-2 text-white bg-gradient-to-r from-[#38c7ff] via-[#612DDD] to-[#9F6BFF] hover:from-[#612DDD] hover:to-[#38c7ff] font-semibold rounded-md px-4 py-2 text-md shadow-md hover:shadow-lg transition-all duration-300"
                         >
                           <VscLiveShare className="text-lg" />
-                          Live.
+                          Live
                         </Link>
-
-                        {/* views More BTn */}
-
                         <Link href={`/project/${p.id}`}>
                           <button
-                            className="text-white bg-gradient-to-r from-purple-500 via-purple-600 to-purple-700 hover:bg-gradient-to-br
-                      text-md rounded-md py-2 px-10"
+                            className="inline-flex items-center font-bold text-white bg-gradient-to-r from-[#612DDD] via-[#9F6BFF] to-[#38c7ff] hover:bg-gradient-to-br rounded-md py-2 px-8 shadow-md hover:shadow-purple-glow transition-all duration-300"
                           >
-                            View{" "}
+                            View
+                            <FiExternalLink className="ml-2" />
                           </button>
                         </Link>
                       </div>
@@ -251,26 +245,33 @@ export default function ProjectList() {
         </div>
       )}
 
-      {/* 📌 Pagination */}
-      <div className="flex justify-center gap-4 mt-6">
+      {/* Pagination */}
+      <div className="flex justify-center gap-4 mt-10">
         <button
           disabled={page === 1}
           onClick={() => setPage((p) => p - 1)}
-          className="px-4 py-2 border rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 disabled:opacity-50"
+          className="px-5 py-2 border rounded-xl bg-[#f3eaff] dark:bg-[#181038] hover:bg-[#612DDD]/10 text-[#612DDD] dark:text-[#9F6BFF] font-bold disabled:opacity-50 transition-all"
         >
           Prev
         </button>
-        <span className="text-sm font-medium">
+        <span className="text-md font-bold text-[#612DDD] dark:text-[#9F6BFF]">
           Page {page} of {totalPages}
         </span>
         <button
           disabled={page === totalPages}
           onClick={() => setPage((p) => p + 1)}
-          className="px-4 py-2 border rounded-lg bg-gray-100 dark:bg-gray-800 hover:bg-gray-200 disabled:opacity-50"
+          className="px-5 py-2 border rounded-xl bg-[#f3eaff] dark:bg-[#181038] hover:bg-[#612DDD]/10 text-[#612DDD] dark:text-[#9F6BFF] font-bold disabled:opacity-50 transition-all"
         >
           Next
         </button>
       </div>
+
+      {/* Card Glow Style */}
+      <style jsx>{`
+        .shadow-purple-glow {
+          box-shadow: 0 0 20px 0 #612DDD99 !important;
+        }
+      `}</style>
     </div>
   );
 }
