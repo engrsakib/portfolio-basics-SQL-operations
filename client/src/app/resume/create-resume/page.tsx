@@ -108,7 +108,7 @@ export default function CreatePublicResume() {
     setChangedFields((prev) => ({ ...prev, [`exp_${index}_${e.target.name}`]: true }));
   };
 
-  // Submit handler
+  // Submit handler (with userId added)
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!user) {
@@ -120,6 +120,7 @@ export default function CreatePublicResume() {
       return;
     }
 
+    // Prepare payload with userId
     const payload = {
       ...form,
       skills: form.skills.split(",").map((s) => s.trim()),
@@ -137,6 +138,7 @@ export default function CreatePublicResume() {
         institution: form.institution,
         year: form.year,
       },
+      userId: user.id, // <-- Send userId to backend for prisma relation
     };
 
     try {
