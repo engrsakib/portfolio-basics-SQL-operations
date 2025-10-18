@@ -1,8 +1,8 @@
-
 "use client";
 import RippleLoader from "@/components/laoding/RippleLoader";
 import { getAllUsers } from "@/lib/userApi/user";
 import { useEffect, useState } from "react";
+import { FaUserShield, FaUserAlt } from "react-icons/fa";
 
 interface User {
   id: string;
@@ -14,7 +14,6 @@ interface User {
 
 export default function AllUsers() {
   const [users, setUsers] = useState<User[]>([]);
-  console.log(users)
   const [loading, setLoading] = useState(true);
   const [page, setPage] = useState(1);
   const [limit] = useState(10);
@@ -32,8 +31,6 @@ export default function AllUsers() {
       }${roleFilter ? `&role=${roleFilter}` : ""}`;
 
       const res = await getAllUsers(query);
-
-     
       setUsers(res.users || []);
       setTotalPages(res.totalPages || 1);
     } catch (error) {
@@ -46,25 +43,33 @@ export default function AllUsers() {
   useEffect(() => {
     fetchUsers();
   }, [page, emailFilter, roleFilter]);
-  // 
 
-  if (loading) return <p className="text-center py-6"><RippleLoader></RippleLoader></p>;
+  if (loading) return <p className="text-center py-6"><RippleLoader /></p>;
 
   return (
-    <div className="max-w-6xl mx-auto shadow-md sm:rounded-lg p-4 bg-white dark:bg-gray-900">
+    <div className="max-w-6xl mx-auto shadow-2xl sm:rounded-3xl p-6 bg-white/80 dark:bg-[#181038]/90 relative overflow-hidden font-poppins">
+      {/* Decorative Blurs */}
+      <div className="absolute -top-20 -left-20 w-64 h-64 bg-[#612DDD]/20 rounded-full blur-2xl -z-10" />
+      <div className="absolute top-1/2 right-8 w-32 h-32 bg-[#9F6BFF]/30 rounded-full blur-2xl -z-10" />
+      <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-40 h-40 bg-[#ff6fd8]/20 rounded-full blur-2xl -z-10" />
+      <div className="absolute bottom-0 right-0 w-32 h-32 bg-[#38c7ff]/20 rounded-full blur-2xl -z-10" />
+
+      {/* Title */}
+      <h1 className="text-4xl font-extrabold text-center mb-8 bg-gradient-to-r from-[#612DDD] via-[#38c7ff] to-[#ff6fd8] text-transparent bg-clip-text drop-shadow-lg">
+        User Management
+      </h1>
+
       {/* 🔍 Filter Section */}
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-4">
+      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 mb-6">
         <input
           type="text"
-          placeholder="Search by email..."
+          placeholder="🔎 Search by email..."
           value={emailFilter}
           onChange={(e) => {
             setPage(1);
             setEmailFilter(e.target.value);
           }}
-          className="px-4 py-2 border rounded-lg w-full sm:w-1/2 
-                     focus:ring-2 focus:ring-indigo-500 
-                     dark:bg-gray-800 dark:border-gray-700"
+          className="px-4 py-2 border border-[#612DDD]/30 rounded-xl w-full sm:w-1/2 focus:ring-2 focus:ring-[#612DDD] dark:bg-[#23214e] dark:border-[#9F6BFF]/30 text-[#612DDD] dark:text-[#9F6BFF]"
         />
 
         <select
@@ -73,9 +78,7 @@ export default function AllUsers() {
             setPage(1);
             setRoleFilter(e.target.value);
           }}
-          className="px-4 py-2 border rounded-lg w-full sm:w-1/4 
-                     focus:ring-2 focus:ring-indigo-500 
-                     dark:bg-gray-800 dark:border-gray-700"
+          className="px-4 py-2 border border-[#612DDD]/30 rounded-xl w-full sm:w-1/4 focus:ring-2 focus:ring-[#612DDD] dark:bg-[#23214e] dark:border-[#9F6BFF]/30 text-[#612DDD] dark:text-[#9F6BFF]"
         >
           <option value="">All Roles</option>
           <option value="USER">User</option>
@@ -84,14 +87,14 @@ export default function AllUsers() {
       </div>
 
       {/* 📋 Table */}
-      <div className="relative overflow-x-auto">
-        <table className="w-full text-sm text-left text-gray-600 dark:text-gray-300 border">
-          <thead className="text-xs text-gray-700 uppercase bg-gradient-to-r from-gray-100 to-gray-200 dark:from-gray-800 dark:to-gray-700">
+      <div className="relative overflow-x-auto shadow-xl rounded-2xl backdrop-blur-md">
+        <table className="w-full text-sm text-left border border-[#612DDD]/10">
+          <thead className="text-xs uppercase bg-gradient-to-r from-[#612DDD] via-[#38c7ff] to-[#ff6fd8] text-white">
             <tr>
-              <th className="px-6 py-3">Name</th>
-              <th className="px-6 py-3">Email</th>
-              <th className="px-6 py-3">Role</th>
-              <th className="px-6 py-3">Created At</th>
+              <th className="px-6 py-4">Name</th>
+              <th className="px-6 py-4">Email</th>
+              <th className="px-6 py-4">Role</th>
+              <th className="px-6 py-4">Created At</th>
             </tr>
           </thead>
           <tbody>
@@ -99,28 +102,33 @@ export default function AllUsers() {
               users.map((user, idx) => (
                 <tr
                   key={user.id}
-                  className={`${
+                  className={`transition-all duration-200 ${
                     idx % 2 === 0
-                      ? "bg-white dark:bg-gray-900"
-                      : "bg-gray-50 dark:bg-gray-800"
-                  } border-b dark:border-gray-700 hover:bg-indigo-50 dark:hover:bg-gray-700 transition`}
+                      ? "bg-white/80 dark:bg-[#181038]/80"
+                      : "bg-[#f3eaff]/70 dark:bg-[#23214e]/70"
+                  } border-b border-[#612DDD]/10 hover:bg-[#612DDD]/10 dark:hover:bg-[#612DDD]/20`}
                 >
-                  <td className="px-6 py-3 font-medium text-gray-900 dark:text-white">
+                  <td className="px-6 py-4 font-semibold flex items-center gap-2 text-[#612DDD] dark:text-[#9F6BFF]">
+                    {user.role === "ADMIN" ? (
+                      <FaUserShield className="inline text-red-400 text-lg" />
+                    ) : (
+                      <FaUserAlt className="inline text-[#612DDD] text-lg" />
+                    )}
                     {user.name}
                   </td>
-                  <td className="px-6 py-3">{user.email}</td>
-                  <td className="px-6 py-3">
+                  <td className="px-6 py-4 break-all">{user.email}</td>
+                  <td className="px-6 py-4">
                     <span
-                      className={`px-2 py-1 rounded text-xs font-semibold ${
+                      className={`px-3 py-1 rounded-xl text-xs font-bold shadow ${
                         user.role === "ADMIN"
-                          ? "bg-red-100 text-red-700 dark:bg-red-900/40 dark:text-red-300"
-                          : "bg-green-100 text-green-700 dark:bg-green-900/40 dark:text-green-300"
+                          ? "bg-gradient-to-r from-red-400 to-pink-500 text-white"
+                          : "bg-gradient-to-r from-[#612DDD] to-[#38c7ff] text-white"
                       }`}
                     >
                       {user.role}
                     </span>
                   </td>
-                  <td className="px-6 py-3">
+                  <td className="px-6 py-4">
                     {user.createAt
                       ? new Date(user.createAt).toLocaleDateString("en-GB", {
                           day: "2-digit",
@@ -135,7 +143,7 @@ export default function AllUsers() {
               <tr>
                 <td
                   colSpan={4}
-                  className="text-center px-6 py-4 text-gray-500 dark:text-gray-400"
+                  className="text-center px-6 py-8 text-[#612DDD] dark:text-[#9F6BFF] font-semibold"
                 >
                   No users found
                 </td>
@@ -146,29 +154,33 @@ export default function AllUsers() {
       </div>
 
       {/* 📌 Pagination */}
-      <div className="flex justify-between items-center mt-4">
+      <div className="flex justify-center items-center gap-8 mt-8">
         <button
           onClick={() => setPage((prev) => Math.max(prev - 1, 1))}
           disabled={page === 1}
-          className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50 
-                     hover:bg-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700"
+          className="px-6 py-3 bg-gradient-to-r from-[#612DDD] to-[#38c7ff] text-white font-bold rounded-xl shadow-lg hover:scale-105 transition-all duration-200 disabled:opacity-50"
         >
           Previous
         </button>
 
-        <span className="text-sm">
+        <span className="text-lg font-bold text-[#612DDD] dark:text-[#9F6BFF]">
           Page {page} of {totalPages}
         </span>
 
         <button
           onClick={() => setPage((prev) => Math.min(prev + 1, totalPages))}
           disabled={page === totalPages}
-          className="px-4 py-2 bg-gray-200 rounded disabled:opacity-50 
-                     hover:bg-gray-300 dark:bg-gray-800 dark:hover:bg-gray-700"
+          className="px-6 py-3 bg-gradient-to-r from-[#38c7ff] to-[#612DDD] text-white font-bold rounded-xl shadow-lg hover:scale-105 transition-all duration-200 disabled:opacity-50"
         >
           Next
         </button>
       </div>
+      {/* Glow Style */}
+      <style jsx>{`
+        .shadow-purple-glow {
+          box-shadow: 0 0 24px 0 #612DDD99 !important;
+        }
+      `}</style>
     </div>
   );
 }
