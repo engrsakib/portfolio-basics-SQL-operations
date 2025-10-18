@@ -15,7 +15,7 @@ export default function Footer() {
                 alt="Logo"
                 className="h-8 w-8"
               />
-              <span className="text-2xl font-bold">HakimDev..</span>
+              <span className="text-2xl font-bold">EngrSakib</span>
             </a>
           </div>
           <div className="text-center md:text-right text-sm text-gray-400">
@@ -86,10 +86,10 @@ export default function Footer() {
             <h3 className="font-semibold text-lg text-white mb-4">Contact</h3>
             <ul>
               <li>
-                <a href="mailto:contact@example.com" className="text-gray-300 hover:text-white">mdhakimshorkar123@gmail.com</a>
+                <a href="mailto:info@engrsakib.com" className="text-gray-300 hover:text-white">info@engrsakib.com</a>
               </li>
               <li>
-                <a href="tel:+123456789" className="text-gray-300 hover:text-white">01625648073</a>
+                <a href="tel:+123456789" className="text-gray-300 hover:text-white">01615514574</a>
               </li>
             </ul>
           </div>
@@ -97,7 +97,7 @@ export default function Footer() {
 
         {/* Footer Bottom */}
         <div className="text-center text-gray-400 py-4">
-          <p>Made with ❤️ by Md Hakim Shorkar</p>
+          <p>All rights reserved &copy; 2025 EngrSakib</p>
         </div>
       </div>
     </div>

@@ -32,7 +32,7 @@ export default function CreateBlogPage() {
       const payload = {
         title,
         content,
-        authorId: user.id,
+        authorId:1,
       };
 
       const res = await api.post("/blog", payload, { withCredentials: true });

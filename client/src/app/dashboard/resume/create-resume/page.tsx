@@ -1,4 +1,3 @@
-
 "use client";
 
 import { useState } from "react";
@@ -7,15 +6,66 @@ import Swal from "sweetalert2";
 import { motion } from "framer-motion";
 import Head from "next/head";
 import { useAuth } from "@/components/modules/auth/authHook/UseAuth";
+import { useRouter } from "next/navigation";
 
+// Check Icon SVG (Animated)
+const CheckIcon = () => (
+  <motion.svg
+    initial={{ scale: 0 }}
+    animate={{ scale: 1 }}
+    exit={{ scale: 0 }}
+    width="22"
+    height="22"
+    className="absolute right-3 top-1/2 -translate-y-1/2 text-[#612DDD] pointer-events-none"
+    fill="none"
+    viewBox="0 0 24 24"
+  >
+    <motion.path
+      stroke="#612DDD"
+      strokeWidth="3"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      d="M5 12l5 5 9-9"
+    />
+  </motion.svg>
+);
 
+interface ExperienceType {
+  company: string;
+  position: string;
+  startDate: string;
+  endDate: string;
+  details: string;
+}
 
-
-export default function CreateProfessionalResume() {
+export default function CreatePublicResume() {
   const { user, loading } = useAuth();
   const [submitting, setSubmitting] = useState(false);
+  const router = useRouter();
 
-  const [form, setForm] = useState({
+  // Changed fields tracking
+  const [changedFields, setChangedFields] = useState<{ [key: string]: boolean }>({});
+
+  const [form, setForm] = useState<{
+    fullName: string;
+    email: string;
+    phone: string;
+    address: string;
+    degree: string;
+    institution: string;
+    year: string;
+    experience: ExperienceType[];
+    skills: string;
+    certifications: string;
+    languages: string;
+    projectName: string;
+    projectDescription: string;
+    projectLink: string;
+    summary: string;
+    portfolioUrl: string;
+    linkedinUrl: string;
+    githubUrl: string;
+  }>({
     fullName: "",
     email: "",
     phone: "",
@@ -24,13 +74,7 @@ export default function CreateProfessionalResume() {
     institution: "",
     year: "",
     experience: [
-      {
-        company: "",
-        position: "",
-        startDate: "",
-        endDate: "",
-        details: "",
-      },
+      { company: "", position: "", startDate: "", endDate: "", details: "" },
     ],
     skills: "",
     certifications: "",
@@ -44,20 +88,28 @@ export default function CreateProfessionalResume() {
     githubUrl: "",
   });
 
+  // Input change handler + field tracker
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
+    setChangedFields((prev) => ({ ...prev, [e.target.name]: true }));
   };
 
+  // Experience field handler (fixes TS error)
   const handleExperienceChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
     index: number
   ) => {
     const updated = [...form.experience];
-    updated[index][e.target.name as keyof typeof updated[0]] = e.target.value;
+    updated[index] = {
+      ...updated[index],
+      [e.target.name]: e.target.value,
+    };
     setForm({ ...form, experience: updated });
+    setChangedFields((prev) => ({ ...prev, [`exp_${index}_${e.target.name}`]: true }));
   };
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  // Submit handler (with userId added)
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (!user) {
       Swal.fire({
@@ -68,6 +120,7 @@ export default function CreateProfessionalResume() {
       return;
     }
 
+    // Prepare payload with userId
     const payload = {
       ...form,
       skills: form.skills.split(",").map((s) => s.trim()),
@@ -85,18 +138,21 @@ export default function CreateProfessionalResume() {
         institution: form.institution,
         year: form.year,
       },
+      userId: user.id, // <-- Send userId to backend for prisma relation
     };
 
     try {
       setSubmitting(true);
       const res = await api.post("/resume", payload, { withCredentials: true });
+
       Swal.fire({
         icon: "success",
         title: "🎉 Resume Created Successfully!",
         text: res.data.message,
-        confirmButtonColor: "#3085d6",
+        confirmButtonColor: "#612DDD",
       });
 
+      router.push("/resume/my-resume");
       setForm({
         fullName: "",
         email: "",
@@ -119,11 +175,13 @@ export default function CreateProfessionalResume() {
         linkedinUrl: "",
         githubUrl: "",
       });
+      setChangedFields({});
     } catch (error: any) {
       Swal.fire({
         icon: "error",
         title: "Failed to Create Resume",
         text: error.response?.data?.message || "Something went wrong!",
+        confirmButtonColor: "#612DDD",
       });
     } finally {
       setSubmitting(false);
@@ -131,7 +189,7 @@ export default function CreateProfessionalResume() {
   };
 
   if (loading)
-    return <p className="text-center text-gray-500 mt-10">Loading user...</p>;
+    return <p className="text-center text-[#612DDD] dark:text-[#9F6BFF] mt-10 font-bold text-lg">Loading user...</p>;
 
   return (
     <>
@@ -143,69 +201,211 @@ export default function CreateProfessionalResume() {
         />
       </Head>
 
-      <section className="min-h-screen bg-gradient-to-br from-sky-50 via-white to-indigo-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900 py-8 px-4 sm:px-6 lg:px-10">
+      <section className="min-h-screen w-full bg-gradient-to-br from-[#612DDD] via-[#9F6BFF] to-[#38c7ff] dark:from-[#181038] dark:via-[#612DDD] dark:to-[#23214e] py-12 px-2 sm:px-6 lg:px-12 flex items-center justify-center relative">
+        {/* Decorative Glass/Blur Shapes */}
+        <div className="absolute -top-24 -left-24 w-72 h-72 bg-[#612DDD]/40 rounded-full blur-3xl -z-10"></div>
+        <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-60 h-60 bg-[#ff6fd8]/30 rounded-full blur-2xl -z-10"></div>
+        <div className="absolute bottom-0 right-0 w-48 h-48 bg-[#38c7ff]/30 rounded-full blur-2xl -z-10"></div>
+        <div className="absolute top-1/2 right-10 w-36 h-36 bg-[#9F6BFF]/20 rounded-full blur-2xl -z-10"></div>
+
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 60 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.4 }}
-          className="max-w-5xl mx-auto bg-white dark:bg-gray-800 rounded-2xl shadow-lg p-6 sm:p-10"
+          transition={{ duration: 0.5 }}
+          className="max-w-4xl w-full mx-auto bg-white/80 dark:bg-[#0b1727]/80 rounded-3xl shadow-2xl p-6 sm:p-10 backdrop-blur-lg border border-[#612DDD]/20"
         >
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-center bg-gradient-to-r from-blue-600 to-purple-600 text-transparent bg-clip-text mb-8">
+          <h1 className="text-3xl md:text-4xl font-extrabold text-center mb-10 bg-gradient-to-r from-[#612DDD] via-[#9F6BFF] to-[#38c7ff] text-transparent bg-clip-text drop-shadow-lg">
             🧾 Create Professional Resume
           </h1>
-
-          <form onSubmit={handleSubmit} className="space-y-8">
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-              <input name="fullName" placeholder="Full Name" value={form.fullName} onChange={handleChange} className="input-box" required />
-              <input name="email" placeholder="Email" value={form.email} onChange={handleChange} className="input-box" required />
-              <input name="phone" placeholder="Phone" value={form.phone} onChange={handleChange} className="input-box" required />
-              <input name="address" placeholder="Address" value={form.address} onChange={handleChange} className="input-box" required />
-            </div>
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-              <input name="degree" placeholder="Degree" value={form.degree} onChange={handleChange} className="input-box" />
-              <input name="institution" placeholder="Institution" value={form.institution} onChange={handleChange} className="input-box" />
-              <input name="year" placeholder="Year" value={form.year} onChange={handleChange} className="input-box" />
-            </div>
-
-            <div>
-              <h2 className="text-lg font-semibold mb-4 text-gray-800 dark:text-gray-200">Experience</h2>
-              {form.experience.map((exp, i) => (
-                <div key={i} className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-5">
-                  <input name="company" placeholder="Company" value={exp.company} onChange={(e) => handleExperienceChange(e, i)} className="input-box" />
-                  <input name="position" placeholder="Position" value={exp.position} onChange={(e) => handleExperienceChange(e, i)} className="input-box" />
-                  <input type="date" name="startDate" value={exp.startDate} onChange={(e) => handleExperienceChange(e, i)} className="input-box" />
-                  <input type="date" name="endDate" value={exp.endDate} onChange={(e) => handleExperienceChange(e, i)} className="input-box" />
-                  <textarea name="details" placeholder="Details" value={exp.details} onChange={(e) => handleExperienceChange(e, i)} className="input-box sm:col-span-2" />
+          <form onSubmit={handleSubmit} className="space-y-10">
+            {/* Personal Info */}
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {(["fullName", "email", "phone", "address"] as const).map((field) => (
+                <div className="relative" key={field}>
+                  <input
+                    name={field}
+                    placeholder={field.replace(/([A-Z])/g, ' $1')}
+                    value={form[field]}
+                    onChange={handleChange}
+                    className={`input-box transition-all duration-300 ${
+                      changedFields[field]
+                        ? "border-2 border-[#612DDD] shadow-purple-glow"
+                        : ""
+                    }`}
+                    required
+                  />
+                  {changedFields[field] && <CheckIcon />}
                 </div>
               ))}
             </div>
 
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-              <input name="skills" placeholder="Skills (comma separated)" value={form.skills} onChange={handleChange} className="input-box" />
-              <input name="certifications" placeholder="Certifications" value={form.certifications} onChange={handleChange} className="input-box" />
-              <input name="languages" placeholder="Languages" value={form.languages} onChange={handleChange} className="input-box" />
+            {/* Education */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {["degree", "institution", "year"].map((field) => (
+                <div className="relative" key={field}>
+                  <input
+                    name={field}
+                    placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+                    value={String(form[field as keyof typeof form] ?? "")}
+                    onChange={handleChange}
+                    className={`input-box transition-all duration-300 ${
+                      changedFields[field]
+                        ? "border-2 border-[#612DDD] shadow-purple-glow"
+                        : ""
+                    }`}
+                  />
+                  {changedFields[field] && <CheckIcon />}
+                </div>
+              ))}
             </div>
 
-            <div className="grid grid-cols-1 gap-4">
-              <input name="projectName" placeholder="Project Name" value={form.projectName} onChange={handleChange} className="input-box" />
-              <textarea name="projectDescription" placeholder="Project Description" value={form.projectDescription} onChange={handleChange} className="input-box" />
-              <input name="projectLink" placeholder="Project Link" value={form.projectLink} onChange={handleChange} className="input-box" />
+            {/* Experience */}
+            <div>
+              <h2 className="text-lg font-semibold mb-4 text-[#612DDD] dark:text-[#9F6BFF]">Experience</h2>
+              {form.experience.map((exp, i) => (
+                <div key={i} className="grid grid-cols-1 md:grid-cols-2 gap-5 mb-6">
+                  {["company", "position", "startDate", "endDate"].map((field) => (
+                    <div className="relative" key={field}>
+                      <input
+                        name={field}
+                        placeholder={field.replace(/([A-Z])/g, ' $1')}
+                        value={exp[field as keyof ExperienceType]}
+                        onChange={(e) => handleExperienceChange(e, i)}
+                        className={`input-box transition-all duration-300 ${
+                          changedFields[`exp_${i}_${field}`]
+                            ? "border-2 border-[#612DDD] shadow-purple-glow"
+                            : ""
+                        }`}
+                      />
+                      {changedFields[`exp_${i}_${field}`] && <CheckIcon />}
+                    </div>
+                  ))}
+                  <div className="relative md:col-span-2">
+                    <textarea
+                      name="details"
+                      placeholder="Details"
+                      value={exp.details}
+                      onChange={(e) => handleExperienceChange(e, i)}
+                      className={`input-box transition-all duration-300 ${
+                        changedFields[`exp_${i}_details`]
+                          ? "border-2 border-[#612DDD] shadow-purple-glow"
+                          : ""
+                      }`}
+                    />
+                    {changedFields[`exp_${i}_details`] && <CheckIcon />}
+                  </div>
+                </div>
+              ))}
             </div>
 
-            <textarea name="summary" placeholder="Professional Summary" value={form.summary} onChange={handleChange} className="input-box" />
-
-            <div className="grid grid-cols-1 sm:grid-cols-3 gap-5">
-              <input name="portfolioUrl" placeholder="Portfolio URL" value={form.portfolioUrl} onChange={handleChange} className="input-box" />
-              <input name="linkedinUrl" placeholder="LinkedIn URL" value={form.linkedinUrl} onChange={handleChange} className="input-box" />
-              <input name="githubUrl" placeholder="GitHub URL" value={form.githubUrl} onChange={handleChange} className="input-box" />
+            {/* Skills/Certifications/Languages */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {["skills", "certifications", "languages"].map((field) => (
+                <div className="relative" key={field}>
+                  <input
+                    name={field}
+                    placeholder={field.charAt(0).toUpperCase() + field.slice(1)}
+                    value={typeof form[field as keyof typeof form] === "string" ? form[field as keyof typeof form] as string : ""}
+                    onChange={handleChange}
+                    className={`input-box transition-all duration-300 ${
+                      changedFields[field]
+                        ? "border-2 border-[#612DDD] shadow-purple-glow"
+                        : ""
+                    }`}
+                  />
+                  {changedFields[field] && <CheckIcon />}
+                </div>
+              ))}
             </div>
 
+            {/* Project */}
+            <div className="grid grid-cols-1 gap-5">
+              <div className="relative">
+                <input
+                  name="projectName"
+                  placeholder="Project Name"
+                  value={form.projectName}
+                  onChange={handleChange}
+                  className={`input-box transition-all duration-300 ${
+                    changedFields["projectName"]
+                      ? "border-2 border-[#612DDD] shadow-purple-glow"
+                      : ""
+                  }`}
+                />
+                {changedFields["projectName"] && <CheckIcon />}
+              </div>
+              <div className="relative">
+                <textarea
+                  name="projectDescription"
+                  placeholder="Project Description"
+                  value={form.projectDescription}
+                  onChange={handleChange}
+                  className={`input-box transition-all duration-300 ${
+                    changedFields["projectDescription"]
+                      ? "border-2 border-[#612DDD] shadow-purple-glow"
+                      : ""
+                  }`}
+                />
+                {changedFields["projectDescription"] && <CheckIcon />}
+              </div>
+              <div className="relative">
+                <input
+                  name="projectLink"
+                  placeholder="Project Link"
+                  value={form.projectLink}
+                  onChange={handleChange}
+                  className={`input-box transition-all duration-300 ${
+                    changedFields["projectLink"]
+                      ? "border-2 border-[#612DDD] shadow-purple-glow"
+                      : ""
+                  }`}
+                />
+                {changedFields["projectLink"] && <CheckIcon />}
+              </div>
+            </div>
+
+            {/* Summary */}
+            <div className="relative">
+              <textarea
+                name="summary"
+                placeholder="Professional Summary"
+                value={form.summary}
+                onChange={handleChange}
+                className={`input-box transition-all duration-300 ${
+                  changedFields["summary"]
+                    ? "border-2 border-[#612DDD] shadow-purple-glow"
+                    : ""
+                }`}
+              />
+              {changedFields["summary"] && <CheckIcon />}
+            </div>
+
+            {/* Links */}
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+              {["portfolioUrl", "linkedinUrl", "githubUrl"].map((field) => (
+                <div className="relative" key={field}>
+                  <input
+                    name={field}
+                    placeholder={field.charAt(0).toUpperCase() + field.slice(1).replace("Url", " URL")}
+                    value={typeof form[field as keyof typeof form] === "string" ? form[field as keyof typeof form] as string : ""}
+                    onChange={handleChange}
+                    className={`input-box transition-all duration-300 ${
+                      changedFields[field]
+                        ? "border-2 border-[#612DDD] shadow-purple-glow"
+                        : ""
+                    }`}
+                  />
+                  {changedFields[field] && <CheckIcon />}
+                </div>
+              ))}
+            </div>
+
+            {/* Submit Button */}
             <div className="text-center">
               <button
                 type="submit"
                 disabled={submitting}
-                className="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white font-semibold rounded-lg shadow-md hover:opacity-90 transition-all"
+                className="w-full md:w-auto px-10 py-4 bg-gradient-to-r from-[#612DDD] via-[#38c7ff] to-[#ff6fd8] text-white font-bold text-lg rounded-xl shadow-lg hover:scale-105 transition-all duration-300 focus:outline-none focus:ring-4 focus:ring-[#612DDD]/30"
               >
                 {submitting ? "Creating..." : "Create Resume"}
               </button>
@@ -214,11 +414,54 @@ export default function CreateProfessionalResume() {
         </motion.div>
       </section>
 
+      {/* Custom glass input styles */}
       <style jsx>{`
         .input-box {
-          @apply w-full px-4 py-2 border border-gray-300 dark:border-gray-700 rounded-lg 
-          bg-gray-50 dark:bg-gray-800 text-gray-800 dark:text-white 
-          focus:ring-2 focus:ring-blue-500 outline-none transition-all text-sm sm:text-base;
+          width: 100%;
+          padding: 0.75rem 1rem;
+          border-radius: 0.75rem;
+          border: 1.5px solid #612DDD33;
+          background: rgba(255,255,255,0.65);
+          color: #222;
+          font-size: 1rem;
+          box-shadow: 0 2px 14px 0 #612DDD0a;
+          outline: none;
+          transition: border 0.2s, box-shadow 0.2s, background 0.2s;
+        }
+        .input-box:focus {
+          border-color: #612DDD;
+          background: rgba(233,232,255,0.85);
+          box-shadow: 0 0 0 4px #612DDD22;
+        }
+        .dark .input-box {
+          background: rgba(25,18,50,0.85);
+          color: #f2f2f2;
+          border-color: #612DDD44;
+        }
+        .dark .input-box:focus {
+          border-color: #9F6BFF;
+          background: rgba(25,18,50,0.98);
+          box-shadow: 0 0 0 4px #9F6BFF44;
+        }
+        .shadow-purple-glow {
+          box-shadow: 0 0 12px 0 #612DDD66;
+        }
+        ::-webkit-scrollbar {
+          width: 8px;
+        }
+        ::-webkit-scrollbar-thumb {
+          background: #612DDD66;
+          border-radius: 8px;
+        }
+      `}</style>
+      {/* Animation CSS */}
+      <style jsx global>{`
+        @keyframes fade-in-up {
+          from { opacity: 0; transform: translateY(60px);}
+          to { opacity: 1; transform: translateY(0);}
+        }
+        .animate-fade-in-up {
+          animation: fade-in-up 0.7s cubic-bezier(.41,.99,.54,.98) both;
         }
       `}</style>
     </>
