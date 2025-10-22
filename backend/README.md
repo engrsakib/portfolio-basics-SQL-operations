@@ -1,63 +1,55 @@
-
 # Next Blog Starter
 
-A simple **Blog Application Starter Pack** built with **TypeScript, Express.js**.  
-This project is designed for the **Next Level Web Development Bootcamp** to help learners practice Prisma hands-on by building a blog platform.
+A simple **Blog Application Starter Pack** built with **TypeScript** and **Express.js**.  
+Designed for the **Next Level Web Development Bootcamp** to help learners practice Prisma hands-on by building a blog platform.
 
 ---
 
-## Features
+## 🚀 Features
+
 - TypeScript + Express.js setup
 - Modular project structure
-- Environment configuration with `dotenv`
-- Ready to extend with blog modules (Posts, Users, etc.)
+- Easy environment configuration with `dotenv`
+- Ready for blog modules (Posts, Users, etc.)
 
 ---
 
-## Installation
+## 📦 Installation
 
-Clone the repository:
-
+**Clone the repository:**
 ```bash
 git clone https://github.com/Apollo-Level2-Web-Dev/next-blog-starter.git
 cd next-blog-starter
 ```
 
-Install dependencies:
-
+**Install dependencies:**
 ```bash
-# using npm
+# npm
 npm install
-
-# using yarn
+# yarn
 yarn install
-
-# using pnpm
+# pnpm
 pnpm install
 ```
 
-Setup environment variables:
-
+**Setup environment variables:**
 ```bash
 cp .env.example .env
 ```
 
-Run the development server:
-
+**Run the development server:**
 ```bash
-# using npm
+# npm
 npm run dev
-
-# using yarn
+# yarn
 yarn dev
-
-# using pnpm
+# pnpm
 pnpm dev
 ```
 
 ---
 
-## Folder Structure
+## 🗂️ Folder Structure
 
 ```
 Prisma-Blog/
@@ -65,20 +57,20 @@ Prisma-Blog/
 │── src/
 │   ├── app.ts             # Express app configuration
 │   ├── server.ts          # Server entry point
-│   ├── config/            # Environment & configuration files
-│   └── modules/           # Application modules (posts, users, etc.)
+│   ├── config/            # Environment & config files
+│   └── modules/           # App modules (posts, users, etc.)
 │── package.json           # Project metadata & scripts
-│── pnpm-lock.yaml         # Lockfile (pnpm)
-│── tsconfig.json          # TypeScript configuration
+│── pnpm-lock.yaml         # pnpm lockfile
+│── tsconfig.json          # TypeScript config
 │── README.md              # Documentation
 ```
 
 ---
 
-## Scripts
+## 📜 Scripts
 
 ```bash
-# Run in development mode
+# Development mode
 pnpm dev
 
 # Build for production
@@ -90,12 +82,16 @@ pnpm start
 
 ---
 
-## Learning Objective
+## 🎯 Learning Objectives
 
 This starter pack is part of the **Next Level Web Development Bootcamp** curriculum.
-By using this project, students will learn how to:
 
-* Connect a Node.js app with Prisma ORM
-* Build modular APIs
-* Manage environment variables
-* Structure scalable backend projects
+You will learn how to:
+- Connect a Node.js app with Prisma ORM
+- Build modular APIs
+- Manage environment variables
+- Structure scalable backend projects
+
+---
+
+> Happy Coding & Learning!
