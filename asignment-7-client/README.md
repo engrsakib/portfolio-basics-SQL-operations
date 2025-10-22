@@ -1,103 +1,108 @@
-Personal Portfolio Website (Next.js + Express + Prisma)
-Live Links
+# Personal Portfolio Website
 
-Frontend: https://asignment-7-client.vercel.app
+### 🚀 [Live Demo](https://sqlclint.vercel.app/)
 
-Backend:  https://a-7-portfolio-backend.vercel.app
+---
 
-Project Overview
+## 🖥️ Overview
 
-This is a personal portfolio website built using Next.js, TypeScript, Express.js, Prisma, and PostgreSQL.
-It includes a secure authentication system, a private admin dashboard, dynamic blogs, and a project showcase section.
-The site is designed to be responsive, fast, and SEO-friendly using Next.js static generation and incremental static regeneration (ISR).
+A modern personal portfolio built with **Next.js**, **TypeScript**, **Express.js**, **Prisma**, and **PostgreSQL**.  
+Showcase your skills, projects, and blogs with a secure admin dashboard. The site is fast, responsive, SEO-friendly, and easy to maintain.
 
-Core Features
-Public Pages
+---
 
-Home / About Me: Displays personal information, bio, and contact details.
+## ✨ Core Features
 
-Blog Section: Public users can view all blogs and individual blog posts using ISR.
+### 🌐 Public Pages
+- **Home / About Me:** Personal info, bio, and contact details.
+- **Blog Section:** View all blogs and individual posts (powered by ISR).
+- **Project Showcase:** See personal projects with images, descriptions, and live links.
 
-Project Showcase: Displays personal projects with thumbnail, description, and live links.
+### 🔒 Private Pages (Admin Only)
+- **Authentication:** Secure JWT-based login for the portfolio owner.
+- **Dashboard:** Create, edit, and delete blogs/projects.
+- **Error Handling:** Form validation, clear error and success messages.
 
-Private Pages (Admin Only)
+---
 
-Authentication: JWT-based secure login for the portfolio owner.
+## 🛠️ Tech Stack
 
-Dashboard: Create, edit, and delete blogs and projects.
+| Layer       | Tech                           |
+|-------------|-------------------------------|
+| Frontend    | Next.js, TypeScript, Tailwind CSS, React Hot Toast |
+| Backend     | Node.js, Express.js, Prisma ORM                 |
+| Database    | PostgreSQL                    |
+| Auth        | JWT, bcrypt                   |
+| Deployment  | Vercel (Frontend), Render/Railway (Backend)    |
 
-Error Handling: Form validation with proper error and success messages.
+---
 
-Tech Stack
+## ⚡ Key Functionalities
 
-Frontend: Next.js, TypeScript, Tailwind CSS, React Hot Toast
-Backend: Node.js, Express.js, Prisma ORM
-Database: PostgreSQL
-Authentication: JWT and bcrypt
-Deployment: Vercel (Frontend) and Render/Railway (Backend)
+- **Secure JWT Authentication**
+- **Dashboard CRUD for Blogs & Projects**
+- **Rich Text Editor (React-Quill, bonus)**
+- **Toast Notifications**
+- **Incremental Static Regeneration (ISR) & SSG**
+- **Error Handling & Validation**
 
------------------------------------------------------------------------------------------
-Admin Credentials
-Email: in submitted box (secret)
-Password: in submitted box (secret)
+---
 
-Key Functionalities
+## 🎨 UI/UX Enhancements
 
-JWT-based secure authentication
+- **Responsive Design** (Tailwind CSS)
+- **Smooth Transitions & Animations**
+- **Lazy Loading for Images**
+- **Accessibility-friendly Structure**
 
-Dashboard CRUD for Blogs and Projects
+---
 
-React-Quill rich text editor (optional bonus)
+## 📁 Folder Structure
 
-Toast notifications using react-hot-toast
+### Frontend
 
-ISR and SSG for fast performance
+```
+src/
+  app/
+    blog/
+    project/
+    dashboard/
+  components/
+  lib/
+  styles/
+```
 
-Error handling with validation messages
+### Backend
 
-UI/UX Enhancements
+```
+src/
+  routes/
+  controllers/
+  middleware/
+  prisma/
+  utils/
+```
 
-Responsive design using Tailwind
+---
 
-Smooth transitions and animations
+## 🔑 Admin Credentials
 
-Lazy loading for images
+> **Email:** _in submitted box (secret)_  
+> **Password:** _in submitted box (secret)_
 
-Accessibility-friendly structure
+---
 
+## 👤 Author
 
-------------------------------------
-Folder Structure
-Frontend
-/src
-  /app
-    /blog
-    /project
-    /dashboard
-  /components
-  /lib
-  /styles
+**Md. Nazmus Sakib**  
+Email: _in submitted box (secret)_
 
-Backend
-/src
-  /routes
-  /controllers
-  /middleware
-  /prisma
-  /utils
+---
 
+## 🌎 Backend API
 
+- Live: [Backend API](https://portfoliobasicssql.vercel.app)
 
-                             ------------------Author--------------------
-                             name: md abudul hakim
-                             email:mdhakimshorkar123@gmail.com
-                             
+---
 
-
-
-  
---------------------------------------
-
-Demo Video
-Link: https://drive.google.com/file/d/19r1qBC9-hU2zTo6mSPOgTTwpuKObONrs/view?fbclid=IwY2xjawNQxtxleHRuA2FlbQIxMABicmlkETFNTERvYktQa0xEU1QwdDZaAR4zN38kSPHeWlgXglg2EIshCqYSe_au0LUodi8VVWg4LajArX08M78cMev6Qg_aem_XaczGGeX3gxv5A8gxdcpKw
-
+> _Built with love & code. Fast, secure, and beautiful._  
